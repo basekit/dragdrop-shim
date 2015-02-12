@@ -8,9 +8,11 @@ requirejs.config({
       "app": "../app"
     },
     "shim": {
-        "drapdrop": ["modernizr", "draggabilly"],
+        "drag": ["draggabilly", "classie"],
     }
 });
 
-// Load the main app module to start the app
-requirejs(["app/main"]);
+requirejs(["modernizr"],function (Modernizr) {
+	// Load the main app module to start the app
+	requirejs(["app/main"]);
+});
