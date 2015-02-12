@@ -8,8 +8,7 @@ requirejs.config({
       "app": "../app"
     },
     "shim": {
-        "jquery.alpha": ["jquery"],
-        "jquery.beta": ["jquery"]
+        "drapdrop": ["modernizr", "draggabilly"],
     }
 });
 

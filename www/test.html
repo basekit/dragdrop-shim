@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Draggabilly Test Sample Page</title>
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/modernizr.js"></script>
+        <script src="js/lib/draggabilly.js"></script>
+        <script src="js/lib/dragdrop.js"></script>
+    </head>
+    <body>
+        <h1>Draggabilly Test Page</h1>
+        <div id="draggable" style="background-color:red; width:200px; height:200px;">
+
+        <script type="text/javascript">
+        $(function() {
+        	var droppableArr = []; 
+	        new Draggable( document.querySelector('#draggable'), droppableArr, {
+				draggabilly : { containment: document.body },
+			});
+    	});
+        </script>
+    </body>
+</html>
