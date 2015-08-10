@@ -332,7 +332,7 @@ if ( typeof define === 'function' && define.amd ) {
     dragDefinition );
 } else if ( typeof exports === 'object' ) {
   // CommonJS
-  module.exports = draggabillyDefinition(
+  module.exports = dragDefinition(
   	require('desandro-classie')
   );
 } else {

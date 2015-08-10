@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Draggabilly+RequireJS Sample Page</title>
+        <!-- Compiled and minified CSS -->
+		<link rel="stylesheet" href="css/materialize.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- Compiled and minified JavaScript -->
+    </head>
+    <body>
+        
+        <h1>Draggabilly</h1>
+
+        <div class="droppable"></div>
+        
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+			<a data-target="modal1" class="btn-floating btn-large waves-effect waves-light red  modal-trigger">
+				<i class="large material-icons">mode_edit</i>
+			</a>
+		</div>
+
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal bottom-sheet">
+			<div class="modal-content">
+				<div class="draggable"></div>
+			</div>
+		</div>
+      
+
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      	<script src="js/materialize.min.js"></script>
+
+      	<script type="text/javascript">
+      		$(document).ready(function(){
+			    $('.modal-trigger').leanModal();
+			    $('.draggable').on('mouseup',function () {
+					$('.lean-overlay').click();	
+			    });
+			});
+      	</script>
+
+        <script data-main="js/app" src="js/lib/require.js"></script>
+    </body>
+</html>

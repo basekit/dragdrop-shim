@@ -12,6 +12,8 @@
 
 	'use strict';
 
+function dropDefinition(classie ) {
+
 	/*************************************************************/
 	/******************* Some helper functions *******************/
 	/*************************************************************/
@@ -121,7 +123,7 @@
 		if( this.isDroppable( draggableEl ) )
 			classie.add( this.el, 'highlight' );
 		else
-			§.remove( this.el, 'highlight' );
+			classie.remove( this.el, 'highlight' );
 	}
 
 	// accepts a draggable element...
@@ -131,5 +133,28 @@
 		this.options.onDrop( this, draggableEl );
 	}
 
-	window.Droppable = Droppable;
+	return Droppable;
+
+}; // end definition
+
+// -------------------------- transport -------------------------- //
+
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( [
+	'classie'
+    ],
+    dropDefinition );
+} else if ( typeof exports === 'object' ) {
+  // CommonJS
+  module.exports = dropDefinition(
+  	require('desandro-classie')
+  );
+} else {
+  // browser global
+  window.Draggable = dropDefinition(
+    window.classie
+  );
+}
+
 })(window);

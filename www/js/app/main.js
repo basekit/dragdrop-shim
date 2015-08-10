@@ -1,10 +1,16 @@
-define(["jquery", "drag"], function($, Draggable) {
-	console.log(arguments);
+define(["jquery", "drag", "drop"], function($, Draggable, Droppable) {
 	var droppableArr = [];
-    //the jquery.alpha.js and jquery.beta.js plugins have been loaded.
     $(function() {
-        new Draggable( document.querySelector('#draggable'), droppableArr, {
-			draggabilly : { containment: document.body },
+
+		droppableArr.push( new Droppable( document.querySelector('.droppable'), {
+				onDrop: function () {
+					console.log(arguments);
+				}
+			})
+		);
+
+		new Draggable( document.querySelector('.draggable'), droppableArr, {
+			draggabilly : { containment: document.body }
 		});
     });
 });
