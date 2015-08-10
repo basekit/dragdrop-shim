@@ -1,0 +1,98 @@
+/**
+ * dragdrop.css
+ * 
+ * ----- Original Licence ------
+ * dragdrop.js
+ * http://www.codrops.com
+ *
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ * 
+ * Copyright 2014, Codrops
+ * http://www.codrops.com 
+ * ------------------------------
+ *
+ * CSS for dragdrop.js animations
+ * Modified by http://www.basekit.com
+ * - Made code AMD ready!
+ * 
+ * Original Code found here: 
+ * http://tympanus.net/codrops/2014/11/11/drag-and-drop-interaction-ideas/
+**/
+.is-dragging {
+	transform: rotate(4deg);
+}
+.is-active {
+	z-index: 100;
+}
+.is-dropped {
+	opacity: 0;
+	-webkit-transform: scale3d(0.7,0.7,1) !important;
+	transform: scale3d(0.7,0.7,1) !important;
+}
+.is-complete {
+	opacity: 1;
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s !important;
+	transition: opacity 0.3s, transform 0.3s !important;
+	-webkit-transform: scale3d(1,1,1) !important;
+	transform: scale3d(1,1,1) !important;
+}
+.animate {
+	-webkit-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+.highlight {
+
+}
+.draggable:hover {
+	cursor: move;
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+.draggable:active {
+	cursor: -webkit-grabbing;
+	cursor: grabbing;
+}
+.droppable {
+	position: relative;
+	-webkit-transition: -webkit-transform 0.3s, background 0.3s;
+	transition: transform 0.3s, background 0.3s;
+	-webkit-backface-visibility: hidden;
+}
+.droppable .drop-highlight {
+	display: none;
+	position: absolute;
+}
+
+.droppable.highlight .drop-highlight {
+	display: block;
+	background-color: #b71c1c;
+}
+
+.droppable.top .drop-highlight {
+	top:0;
+	left:0;
+	right:0;
+	height: 30px;
+}
+
+.droppable.bottom .drop-highlight {
+	bottom:0;
+	left:0;
+	right:0;
+	height: 30px;
+}
+
+.droppable.left .drop-highlight {
+	left:0;
+	bottom:0;
+	top:0;
+	width: 30px;
+}
+
+.droppable.right .drop-highlight {
+	right:0;
+	bottom:0;
+	top:0;
+	width: 30px;
+}

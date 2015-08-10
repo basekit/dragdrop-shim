@@ -3,9 +3,28 @@ html, body {
 }
 
 .draggable {
-	width:100px;
-	height:100px;
+	width:45%;
+	padding-bottom: 45%;
+	position: relative;
+} 
+
+.draggable .widget {
+	position:absolute;
+	top:0;
+	right:0;
+	left:0;
+	bottom:0;
 	background-color: #00bfa5;
+}
+
+.draggable.is-dragging .widget {
+	-webkit-transition: -webkit-transform 0.3s, background 0.3s;
+	transition: transform 0.3s, background 0.3s;
+	-webkit-backface-visibility: hidden;
+	transform:rotate(6deg);
+	-webkit-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	-moz-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
 .droppable {
@@ -14,12 +33,42 @@ html, body {
 	background-color: #b2dfdb;
 }
 
-
-.modal {
-	background-color:#212121;
-	overflow-y:visible!important;
+#canvas {
+	height:100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.lean-overlay {
-	visibility: hidden;
+#sidebar {
+	overflow: visible;
+	display: none;
+	list-style: none;
+	*zoom: 1;
+}
+
+body.show-sidebar #canvas {
+	margin-left: 240px;
+}
+
+body.show-sidebar #sidebar {
+	display: block;
+}
+
+/* override materialised hover */
+.side-nav li {
+	float: left;
+	width: 42%;
+	padding-bottom: 45%;
+	margin-top:5%;
+}
+
+.side-nav li:nth-child(odd) {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.side-nav li:hover, 
+.side-nav li.active {
+	background-color: transparent;
 }

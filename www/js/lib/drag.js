@@ -7,6 +7,12 @@
  * 
  * Copyright 2014, Codrops
  * http://www.codrops.com
+ *
+ * Modified by BaseKit Platform Ltd
+ * - Made code AMD ready!
+ * 
+ * Original Code found here: 
+ * http://tympanus.net/codrops/2014/11/11/drag-and-drop-interaction-ideas/
  */
 ;( function( window ) {
 

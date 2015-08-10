@@ -7,12 +7,18 @@
  * 
  * Copyright 2014, Codrops
  * http://www.codrops.com
+ *
+ * Modified by http://www.basekit.com
+ * - Made code AMD ready!
+ * 
+ * Original Code found here: 
+ * http://tympanus.net/codrops/2014/11/11/drag-and-drop-interaction-ideas/
  */
 ;( function(window) {
 
 	'use strict';
 
-function dropDefinition(classie ) {
+function dropDefinition(classie) {
 
 	/*************************************************************/
 	/******************* Some helper functions *******************/
@@ -99,6 +105,7 @@ function dropDefinition(classie ) {
 
 	function Droppable( droppableEl, options ) {
 		this.el = droppableEl;
+		this.leaning = null;
 		this.options = extend( {}, this.options );
 		extend( this.options, options );
 	}
@@ -118,19 +125,65 @@ function dropDefinition(classie ) {
 				offset2.top + height2 < offset1.top + height1/2 );
 	}
 
+	// RH: based on function above, with extra leaning
+	Droppable.prototype.isDroppableAdvanced = function( draggableEl ) {
+		var offset1 = getOffset( draggableEl ), width1 = draggableEl.offsetWidth, height1 = draggableEl.offsetHeight,
+			offset2 = getOffset( this.el ), width2 = this.el.offsetWidth, height2 = this.el.offsetHeight;
+
+		// if inside...
+		if(!(offset2.left > offset1.left + width1 - width1/2 || 
+				offset2.left + width2 < offset1.left + width1/2 || 
+				offset2.top > offset1.top + height1 - height1/2 ||
+				offset2.top + height2 < offset1.top + height1/2 )) {
+			// ...then check leaning..
+			// calculation description. At this point we know we are inside the drop boundaries
+			// left: if drag left edge is gr than drop left edge + 30px 
+			if (offset1.left + width1 > offset2.left + width2 - 30) {
+				return 'right';
+			// top: if drag top edge in the top half of the drop
+			} else if (offset1.left < offset2.left + 30) {
+				return 'left';
+			// right: if drag right edge is greater than drop right edge - 30px 
+			} else if(offset1.top > offset2.top + height2/2){
+				return 'bottom'
+			} else if(offset1.top < offset2.top + height2/2){
+				return 'top'
+			// bottom: if drag top edge in the bottom half of the drop
+			} 
+		} else {
+			return false;
+		}
+	}
+
 	// highlight the droppable if it's ready to collect the draggable
+	// RH - add leaning class; top, right, left, bottom
 	Droppable.prototype.highlight = function( draggableEl ) {
-		if( this.isDroppable( draggableEl ) )
+		var leaning = this.isDroppableAdvanced( draggableEl );
+		
+		if( leaning !== false ) {
 			classie.add( this.el, 'highlight' );
-		else
+			// Check if leaning is different to previous check...
+			if (this.leaning !== leaning) {
+				// if not, swap class out
+				classie.remove( this.el, this.leaning );
+				classie.add( this.el, leaning );
+				// save previous leaning
+				this.leaning = leaning;
+			}
+		} else {
 			classie.remove( this.el, 'highlight' );
+			classie.remove( this.el, this.leaning );
+			// remove leaning
+			this.leaning = null;
+		}
 	}
 
 	// accepts a draggable element...
 	Droppable.prototype.collect = function( draggableEl ) {
 		// remove highlight class from droppable element
 		classie.remove( this.el, 'highlight' );
-		this.options.onDrop( this, draggableEl );
+		this.options.onDrop( this, draggableEl , this.leaning);
+		this.leaning = null;
 	}
 
 	return Droppable;
