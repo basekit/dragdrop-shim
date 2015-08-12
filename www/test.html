@@ -23,7 +23,7 @@
 		</ul>
 		
 		<div id="canvas">
-			<div class="droppable"><span class="drop-highlight"></span></div>
+			<iframe id="editor-frame" src="frame.html"></iframe>
 		</div>
         
         
@@ -40,7 +40,8 @@
       	<script src="js/materialize.min.js"></script>
 
       	<script type="text/javascript">
-      		$(document).ready(function() {
+
+	  		$(document).ready(function() {
 				$('#add-button').on('click', function () {
 					$('body').toggleClass('show-sidebar');
 				});

@@ -161,15 +161,17 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.onDragMove = function( instance, event, pointer ) {
-		//callback
-		this.options.onDrag();
+		var droppableCoords = null;
 
 		// scroll page if at viewport's edge
 		if( this.options.scroll ) {
 			this.scrollPage( instance.element );
 		}
 		// highlight droppable elements if draggables intersect
-		this.highlightDroppables();
+		droppableCoords = this.highlightDroppables();
+
+		//callback
+		this.options.onDrag(droppableCoords);
 	}
 
 	Draggable.prototype.onDragEnd = function( instance, event, pointer ) {
@@ -224,9 +226,16 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.highlightDroppables = function( el ) {
+		var hoverCoords = null,
+			droppableCoords = null;
 		for( var i = 0, len = this.droppables.length; i < len; ++i ) {
-			this.droppables[i].highlight( this.el );
+			droppableCoords = this.droppables[i].highlight( this.el );
+			if( droppableCoords.leaning !== false ) {
+				hoverCoords = droppableCoords;
+			}
 		}
+
+		return hoverCoords;
 	}
 
 	Draggable.prototype.createHelper = function() {

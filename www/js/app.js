@@ -12,7 +12,6 @@ requirejs.config({
     }
 });
 
-requirejs(["modernizr"],function (Modernizr) {
-	// Load the main app module to start the app
-	requirejs(["app/main"]);
+require(["modernizr", "jquery", "app/editor"],function (Modernizr, $, Editor) {
+	Editor.load($('#editor-frame')[0]);
 });

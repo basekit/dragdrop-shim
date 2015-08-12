@@ -2,6 +2,12 @@ html, body {
 	height:100%;
 }
 
+iframe {
+	width:100%;
+	height:100%;
+	border:none;
+}
+
 .draggable {
 	width:45%;
 	padding-bottom: 45%;
@@ -28,9 +34,10 @@ html, body {
 }
 
 .droppable {
-	width:500px;
+	width:100%;
 	height:300px;
 	background-color: #b2dfdb;
+	margin:20px 0;
 }
 
 #canvas {
@@ -38,6 +45,11 @@ html, body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+#main {
+	max-width:960px;
+	margin:0 auto;
 }
 
 #sidebar {
@@ -71,4 +83,14 @@ body.show-sidebar #sidebar {
 .side-nav li:hover, 
 .side-nav li.active {
 	background-color: transparent;
+}
+
+.row {
+	width:960px;
+}
+
+@media only screen and (max-width: 992px) {
+	.side-nav.fixed	{
+		left: 0;
+	}
 }
