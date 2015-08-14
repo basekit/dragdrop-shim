@@ -5,13 +5,23 @@
 requirejs.config({
     "baseUrl": "js/lib",
     "paths": {
-      "app": "../app"
+      "app": "../App"
     },
     "shim": {
         "drag": ["draggabilly", "classie"],
     }
 });
 
-require(["modernizr", "jquery", "app/editor"],function (Modernizr, $, Editor) {
-	Editor.load($('#editor-frame')[0]);
+require(["modernizr", "jquery", "app/Editor"],function (Modernizr, $, Editor) {
+
+	var $editorIframe = $('#editor-frame'),
+		editorURL = 'frame.html';
+
+	$(document).ready(function () {
+		$editorIframe
+			.attr('src', editorURL)
+			.one('load', function () {
+				Editor.load($editorIframe[0]);
+			});	
+	});
 });
