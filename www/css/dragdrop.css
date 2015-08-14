@@ -69,3 +69,13 @@
 .drag-active #drop-highlight {
 	display: block;
 }
+
+.helper {
+	z-index:1000;
+	position:absolute;
+	width:99px;
+	height:105px;
+	list-style:none;
+	display:block;
+	padding-bottom:0;
+}

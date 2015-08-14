@@ -66,17 +66,24 @@ function dropDefinition(classie) {
 	// gets the offset of an element relative to the document
 	function getOffset( el, frameEl ) {
 		var offset = el.getBoundingClientRect(),
-			offsetVar = {top:offset.top, left:offset.left};
+			offsetVar = {top:offset.top, left:offset.left},
+			iframeBoundaries = null;
 
 		// RH: need check to see if this element is contained in
-		// this window's context. If not add the the iframe windown 
+		// this window's context. If not add the the iframe windown
 		// x,y offset to the calculations. 
 		if(el.ownerDocument !== window.document && typeof frameEl === 'object') {
-			offsetVar.top = offsetVar.top + frameEl.offsetTop;
-			offsetVar.left = offsetVar.left + frameEl.offsetLeft
+			iframeBoundaries = frameEl.getBoundingClientRect();
+			offsetVar.top = offsetVar.top + iframeBoundaries.top;
+			offsetVar.left = offsetVar.left + iframeBoundaries.left;
+			offsetVar.scrollX = frameEl.contentWindow.pageXOffset;
+			offsetVar.scrollY = frameEl.contentWindow.pageYOffset;
+			return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:offsetVar.scrollX, scrollY:offsetVar.scrollY }
+		} else {
+			return { top : offsetVar.top + scrollY(), left : offsetVar.left + scrollX(), realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }
 		}
 
-		return { top : offsetVar.top + scrollY(), left : offsetVar.left + scrollX(), realTop : offset.top, realLeft : offset.left   }
+		
 	}
 	function setTransformStyle( el, tval ) { el.style.transform = tval; }
 	function onEndTransition( el, callback ) {
@@ -155,9 +162,9 @@ function dropDefinition(classie) {
 			} else if (offset1.left < offset2.left + 30) {
 				side = 'left';
 			// right: if drag right edge is greater than drop right edge - 30px 
-			} else if(offset1.top > offset2.top + height2/2){
+			} else if(offset1.top + height1/2 > offset2.top + height2/2){
 				side = 'bottom'
-			} else if(offset1.top < offset2.top + height2/2){
+			} else if(offset1.top + height1/2 < offset2.top + height2/2){
 				side = 'top'
 			// bottom: if drag top edge in the bottom half of the drop
 			} 
@@ -173,7 +180,9 @@ function dropDefinition(classie) {
 			tr:[offset2.realLeft + width2, offset2.realTop],
 			bl:[offset2.realLeft, offset2.realTop + height2],
 			br:[offset2.realLeft + width2, offset2.realTop + height2],
-			el:this.el
+			el:this.el,
+			scrollX:offset2.scrollX,
+			scrollY:offset2.scrollY
 		}
 	}
 

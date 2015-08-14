@@ -74,6 +74,7 @@ function dragDefinition(Draggabilly, classie ) {
 			if( support.transitions ) {
 				this.removeEventListener( transEndEventName, onEndCallbackFn );
 			}
+
 			if( callback && typeof callback === 'function' ) { callback.call(); }
 		};
 
@@ -108,7 +109,7 @@ function dragDefinition(Draggabilly, classie ) {
 		this.options = extend( {}, this.options );
 		extend( this.options, options );
 		this.droppables = droppables;
-		this.scrollableEl = this.options.scrollable === window ? window : document.querySelector( this.options.scrollable );
+		this.scrollableEl = typeof this.options.scrollable.contentWindow === 'object' ? this.options.scrollable : document.querySelector( this.options.scrollable );
 		this.scrollIncrement = 0;
 		if( this.options.helper ) {
 			this.offset = { left : getOffset( this.el ).left, top : getOffset( this.el ).top };
@@ -248,6 +249,7 @@ function dragDefinition(Draggabilly, classie ) {
 		var draggable = new Draggable( clone, this.droppables, this.options );
 		// the original item will be absolute on the page - need to set correct position values..
 		classie.add( this.el, 'helper' );
+
 		this.el.style.left = draggable.offset.left + 'px';
 		this.el.style.top = draggable.offset.top + 'px';
 
@@ -260,6 +262,7 @@ function dragDefinition(Draggabilly, classie ) {
 
 	// move back the draggable to its original position
 	Draggable.prototype.moveBack = function( withAnimation ) {
+
 		var anim = this.options.animBack && withAnimation;
 
 		// add animate class (where the transition is defined)
@@ -273,6 +276,7 @@ function dragDefinition(Draggabilly, classie ) {
 		this.el.style.top = this.position.top + 'px';
 		// remove class animate (transition) and is-active to the draggable element (z-index)
 		var callbackFn = function() {
+
 			if( anim ) { 
 				classie.remove( this.el, 'animate' ); 
 			}
@@ -327,9 +331,13 @@ function dragDefinition(Draggabilly, classie ) {
 		this.scrollIncrement++;
 		var val = this.scrollIncrement < speed ? this.scrollIncrement : speed;
 
-		this.scrollableEl === window ? 
-			this.scrollableEl.scrollBy( 0, this.scrolldir === 'up' ? val * -1 : val ) : 
+		if(typeof this.scrollableEl.contentWindow === 'object') {
+			// Set timeout is needed to fix scrolling on iPhone safari
+			// http://stackoverflow.com/questions/11845371/window-scrollto-is-not-working-in-mobile-phones
+			setTimeout(this.scrollableEl.contentWindow.scrollTo( 0, this.scrolldir === 'up' ? this.scrollableEl.contentWindow.pageYOffset + (val * -1) : this.scrollableEl.contentWindow.pageYOffset + val ),10) ;
+		} else {
 			this.scrollableEl.scrollTop += this.scrolldir === 'up' ? val * -1 : val;
+		}
 	}
 
 	return Draggable;
