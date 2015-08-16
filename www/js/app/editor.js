@@ -4,8 +4,9 @@ define([
 	"drop", 
 	"classie",
 	"app/Behaviour/DragBehaviour",
-	"app/Behaviour/DropBehaviour"
-], function($, Draggable, Droppable, classie, Drag, Drop) {
+	"app/Behaviour/DropBehaviour",
+	"app/Behaviour/ColumnBehaviour"
+], function($, Draggable, Droppable, classie, Drag, Drop, Column) {
 
 	var Editor = {
 		load: function (iframe) {
@@ -32,6 +33,11 @@ define([
 			$('.draggable').each(function () {
 				Drag.load(this, droppableArr, iframe, document.body, $dragHighlight);
 			});
+
+			iframeWindow.$('.column').each(function () {
+				droppableArr.push( Column.load(this, iframe) );
+			});
+
 		}
 	};
 
