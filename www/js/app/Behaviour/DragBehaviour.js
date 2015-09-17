@@ -24,7 +24,7 @@ define([
 						// Contain the to the body of the editor
 						// NOTE: THIS ONLY WORKS IF THE IFRAME
 						// ISN'T OFFSET IN THE MAIN DOCUMENT.
-						containment: containment
+						//containment: containment
 					},
 					onStart : function() {
 
