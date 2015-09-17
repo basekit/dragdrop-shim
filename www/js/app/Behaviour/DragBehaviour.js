@@ -11,13 +11,14 @@ define([
 				iframeWindow = iframe.contentWindow ? iframe.contentWindow : iframe.contentDocument.defaultView,
 				iframeBody = $(iframeWindow.document.body)[0],
 				drag = new Draggable( element, droppableArr, {
-				helper:true,
+				helper:false,
 				scroll:true,
+				frameBody:iframe,
 				scrollable:iframe,
 				scrollSensitivity:75,
 				draggabilly : {
 					// Contain the to the body of the editor
-					containment: containment
+					//containment: containment
 				},
 				onStart : function() {
 
@@ -31,6 +32,7 @@ define([
 
 					// Set the 
 					classie.add( iframeBody, 'drag-active' );
+					classie.add( document.body, 'drag-active' );
 				},
 				onDrag: function (droppableCoords) {
 
@@ -116,6 +118,7 @@ define([
 					// So fun class stuff to get nice animations and stuff!
 					if( !wasDropped ) {
 						classie.remove( iframeBody, 'drag-active' );
+						classie.remove( document.body, 'drag-active' );
 					}
 					else {
 						// after some time hide drop area and remove class 'drag-active' from body
@@ -123,6 +126,7 @@ define([
 						dropAreaTimeout = setTimeout( function() {
 							// remove class 'drag-active' from body
 							classie.remove( iframeBody, 'drag-active' );
+							classie.remove( document.body, 'drag-active' );
 						}, 400 );
 					}
 
@@ -131,6 +135,10 @@ define([
 					// proxy gets stuck on the iframe. This brings the 
 					// iframe back to life after the drag.
 					$("#editor-frame").css('z-index', '0');
+
+					if($(element).hasClass('site-drag')) {
+						$(element).css('display','none');
+					}
 
 					// Hide the indicator!
 					self.setDropIndicatorPosition($dragHighlight, 0,0,0,0);

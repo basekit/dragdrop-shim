@@ -23,6 +23,12 @@ iframe {
 	background-color: #00bfa5;
 }
 
+.site .draggable {
+	width:100px;
+	height:100px;
+	padding-bottom:inherit;
+}
+
 .draggable.is-dragging .widget {
 	-webkit-transition: -webkit-transform 0.3s, background 0.3s;
 	transition: transform 0.3s, background 0.3s;

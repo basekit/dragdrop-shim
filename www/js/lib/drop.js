@@ -72,7 +72,8 @@ function dropDefinition(classie) {
 		// RH: need check to see if this element is contained in
 		// this window's context. If not add the the iframe windown
 		// x,y offset to the calculations. 
-		if(el.ownerDocument !== window.document && typeof frameEl === 'object') {
+		if(el.ownerDocument !== window.document && frameEl !== null &&  typeof frameEl === 'object') {
+
 			iframeBoundaries = frameEl.getBoundingClientRect();
 			offsetVar.top = offsetVar.top + iframeBoundaries.top;
 			offsetVar.left = offsetVar.left + iframeBoundaries.left;
