@@ -63,7 +63,7 @@ function dragDefinition(Draggabilly, classie ) {
 		);
 	}
 	function isiOSSafari() {
-		return !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+        return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
 	}
 	// from http://responsejs.com/labs/dimensions/
 	function getViewportW() {

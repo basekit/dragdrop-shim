@@ -62,10 +62,6 @@
 	display: block;
 }
 
-.row {
-	position:relative;
-}
-
 .helper {
 	z-index:1000;
 	position:absolute;
@@ -78,12 +74,4 @@
 /* Hide the original handle when drag helper is being moved */
 .is-drag-original {
 	display: none!important;
-}
-.column-drop.highlight {
-	background-color: #b71c1c;
-}
-
-.column-drop.highlight.drop-left,
-.column-drop.highlight.drop-right {
-	background-color: transparent;
 }
