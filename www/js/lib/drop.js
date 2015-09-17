@@ -75,8 +75,9 @@ function dropDefinition(classie) {
 		if(el.ownerDocument !== window.document && frameEl !== null &&  typeof frameEl === 'object') {
 
 			iframeBoundaries = frameEl.getBoundingClientRect();
-			offsetVar.top = offsetVar.top + iframeBoundaries.top;
-			offsetVar.left = offsetVar.left + iframeBoundaries.left;
+			 // RH:This is a pain in iOS as the iframe this value yeilds a different result
+			offsetVar.top = offsetVar.top/* + iframeBoundaries.top*/;
+			offsetVar.left = offsetVar.left/* + iframeBoundaries.left*/;
 			offsetVar.scrollX = frameEl.contentWindow.pageXOffset;
 			offsetVar.scrollY = frameEl.contentWindow.pageYOffset;
 			return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:offsetVar.scrollX, scrollY:offsetVar.scrollY }

@@ -26,16 +26,8 @@
 	z-index: 100;
 }
 .is-dropped {
-	opacity: 0;
-	-webkit-transform: scale3d(0.7,0.7,1) !important;
-	transform: scale3d(0.7,0.7,1) !important;
 }
 .is-complete {
-	opacity: 1;
-	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s !important;
-	transition: opacity 0.3s, transform 0.3s !important;
-	-webkit-transform: scale3d(1,1,1) !important;
-	transform: scale3d(1,1,1) !important;
 }
 .animate {
 	-webkit-transition: all 0.3s ease-out;
@@ -83,7 +75,10 @@
 	display:block;
 	padding-bottom:0;
 }
-
+/* Hide the original handle when drag helper is being moved */
+.is-drag-original {
+	display: none!important;
+}
 .column-drop.highlight {
 	background-color: #b71c1c;
 }

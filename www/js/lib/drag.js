@@ -52,6 +52,19 @@ function dragDefinition(Draggabilly, classie ) {
 			}
 		};
 	}
+	function isNode(o){
+		return (
+			typeof Node === "object" ? o instanceof Node : o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
+		);
+	}
+	function isElement(o){
+		return (
+			typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
+		);
+	}
+	function isiOSSafari() {
+		return !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+	}
 	// from http://responsejs.com/labs/dimensions/
 	function getViewportW() {
 		var client = docElem['clientWidth'], inner = window['innerWidth'];
@@ -61,8 +74,12 @@ function dragDefinition(Draggabilly, classie ) {
 		var client = docElem['clientHeight'], inner = window['innerHeight'];
 		return client < inner ? inner : client;
 	}
-	function scrollX() { return window.pageXOffset || docElem.scrollLeft; }
-	function scrollY() { return window.pageYOffset || docElem.scrollTop; }
+	function scrollX() { 
+		return window.pageXOffset || docElem.scrollLeft; 
+	}
+	function scrollY() { 
+		return window.pageYOffset || docElem.scrollTop; 
+	}
 	// gets the offset of an element relative to the document
 	function getOffset( el ) {
 		var offset = el.getBoundingClientRect();
@@ -226,6 +243,13 @@ function dragDefinition(Draggabilly, classie ) {
 		this.moveBack( withAnimation );
 	}
 
+	Draggable.prototype.onDragEndAnimation = function() {
+
+		if(typeof this.options.onDragEndAnimation === 'function') {
+			this.options.onDragEndAnimation();
+		}
+	}
+
 	Draggable.prototype.highlightDroppables = function( el ) {
 		var hoverCoords = null,
 			droppableCoords = null;
@@ -245,6 +269,7 @@ function dragDefinition(Draggabilly, classie ) {
 		// because the original element started the dragging, we need to remove the is-dragging class
 		classie.remove( clone, 'is-dragging' );
 		this.el.parentNode.replaceChild( clone, this.el );
+		
 		// initialize Draggabilly on the clone.. 
 		var draggable = new Draggable( clone, this.droppables, this.options );
 		// the original item will be absolute on the page - need to set correct position values..
@@ -258,6 +283,7 @@ function dragDefinition(Draggabilly, classie ) {
 		this.position.top = draggable.offset.top;
 
 		body.appendChild( this.el );
+		classie.add( clone, 'is-drag-original' );
 	}
 
 	// move back the draggable to its original position
@@ -283,6 +309,8 @@ function dragDefinition(Draggabilly, classie ) {
 			classie.remove( this.el, 'is-active' );
 			if( this.options.helper ) {
 				body.removeChild( this.el );
+				classie.remove(document.getElementsByClassName('is-drag-original')[0], 'is-drag-original');
+				this.onDragEndAnimation();
 			}
 		}.bind( this );
 
@@ -331,9 +359,13 @@ function dragDefinition(Draggabilly, classie ) {
 		this.scrollIncrement++;
 		var val = this.scrollIncrement < speed ? this.scrollIncrement : speed;
 
-		if(typeof this.scrollableEl.contentWindow === 'object') {
+		// If iOS Safari, (ouch...) scroll this window
+		if(isiOSSafari()) {
 			// Set timeout is needed to fix scrolling on iPhone safari
-			// http://stackoverflow.com/questions/11845371/window-scrollto-is-not-working-in-mobile-phones
+			setTimeout(window.scrollTo( 0, this.scrolldir === 'up' ? window.pageYOffset + (val * -1) : window.pageYOffset + val ),10) ;
+		// If iframe object
+		} else if(isElement(this.scrollableEl) && typeof this.scrollableEl.contentWindow === 'object') {
+			// Set timeout is needed to fix scrolling on iPhone safari
 			setTimeout(this.scrollableEl.contentWindow.scrollTo( 0, this.scrolldir === 'up' ? this.scrollableEl.contentWindow.pageYOffset + (val * -1) : this.scrollableEl.contentWindow.pageYOffset + val ),10) ;
 		} else {
 			this.scrollableEl.scrollTop += this.scrolldir === 'up' ? val * -1 : val;
