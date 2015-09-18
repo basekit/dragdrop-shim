@@ -193,16 +193,18 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.onDragEnd = function( instance, event, pointer ) {
-		if( this.options.helper ) {
-			//instance.element.style.left = parseInt(this.position.left,10) + parseInt((instance.element.style.width/2),10) + 'px';
-			//instance.element.style.top = parseInt(this.position.top,10) + parseInt((instance.element.style.height/2),10) + 'px';
+		if( this.options.helper && this.options.context === 'toplevel' ) {
+
+			instance.element.style.top = this.position.top + parseInt(instance.position.y,10) + 'px';
+			instance.element.style.left = this.position.left + parseInt(instance.position.x,10) + 'px';	
+
 		}
 
 		if( this.options.scroll ) {
 			// reset this.scrollIncrement
 			this.scrollIncrement = 0;
 		}
-		
+
 		// if the draggable && droppable elements intersect then "drop" and move back the draggable
 		var dropped = false;
 		for( var i = 0, len = this.droppables.length; i < len; ++i ) {

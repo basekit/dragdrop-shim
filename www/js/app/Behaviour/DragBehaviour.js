@@ -8,7 +8,7 @@ define([
 	}
 	var DragBehaviour = {
 		// containment = document.body
-		load: function (element, droppableArr, iframe, containment, $highlighter ) {
+		load: function (element, droppableArr, iframe, containment, $highlighter, context ) {
 			var self = this,
 				dropAreaTimeout = null,
 				
@@ -21,6 +21,7 @@ define([
 					helper:true, // create a proxy to drag
 					scroll:true, // scroll when document limits reached
 					frameEl:iframe,
+					context:context, // Does this have a frame context? 'toplevel', 'frame'
 					scrollable:iframe, // Which element to scroll... bar iOS pains
 					scrollSensitivity:100, // How close to the edge we should be
 					draggabilly : {

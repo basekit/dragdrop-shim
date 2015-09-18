@@ -169,6 +169,7 @@ function dropDefinition(classie) {
 		var offset1 = getOffset( draggableEl, null ), width1 = draggableEl.offsetWidth, height1 = draggableEl.offsetHeight,
 			offset2 = getOffset( this.el, this.options.frameEl ), width2 = this.el.offsetWidth, height2 = this.el.offsetHeight,
 			side = false;
+
 		// if inside...
 		if(!(offset2.left > offset1.left + width1 - width1/2 || 
 				offset2.left + width2 < offset1.left + width1/2 || 

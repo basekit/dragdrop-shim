@@ -36,8 +36,12 @@ define([
 
 	    	// Set all the draggables, in this demo, this is just 
 	    	// the NEW WIDGETS from the Pop-ups and sidebars
-			$('.draggable').each(function () {
-				Drag.load(this, droppableArr, iframe, document.body, $dragHighlight);
+			$('.sidebar-drag').each(function () {
+				Drag.load(this, droppableArr, iframe, document.body, $dragHighlight, 'toplevel');
+			});
+
+			$('.site-drag').each(function () {
+				Drag.load(this, droppableArr, iframe, document.body, $dragHighlight, 'frame');
 			});
 
 			// For all widgets...
