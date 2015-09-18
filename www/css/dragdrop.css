@@ -34,7 +34,10 @@
 	transition: all 0.3s ease-out;
 }
 .highlight {
-
+}
+.drop-feedback {
+	background-color:#f6e6bc;
+	transition:background 0.3s;
 }
 .draggable:hover {
 	cursor: move;

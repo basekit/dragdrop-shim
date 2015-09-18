@@ -46,7 +46,7 @@ define([
 						// Slight delay to ensure a position of the drag is calculated
 						setTimeout(function () {
 							classie.remove( document.body, 'show-sidebar' );
-						}, 100)
+						}, 100);
 						
 					},
 					onDrag: function (droppableCoords) {

@@ -165,11 +165,10 @@ function dropDefinition(classie) {
 	}
 
 	// RH: based on function above, with extra leaning
-	Droppable.prototype.isDroppableAdvanced = function( draggableEl ) {
+	Droppable.prototype.isDroppableAdvanced = function( draggableEl, endFlag ) {
 		var offset1 = getOffset( draggableEl, null ), width1 = draggableEl.offsetWidth, height1 = draggableEl.offsetHeight,
 			offset2 = getOffset( this.el, this.options.frameEl ), width2 = this.el.offsetWidth, height2 = this.el.offsetHeight,
 			side = false;
-
 		// if inside...
 		if(!(offset2.left > offset1.left + width1 - width1/2 || 
 				offset2.left + width2 < offset1.left + width1/2 || 
@@ -190,21 +189,41 @@ function dropDefinition(classie) {
 				side = 'top'
 			// bottom: if drag top edge in the bottom half of the drop
 			} 
-		}
 
-		return {
-			leaning: side,
-			x: offset2.realLeft,
-			y: offset2.realTop,
-			width: width2,
-			height: height2,
-			tl:[offset2.realLeft, offset2.realTop],
-			tr:[offset2.realLeft + width2, offset2.realTop],
-			bl:[offset2.realLeft, offset2.realTop + height2],
-			br:[offset2.realLeft + width2, offset2.realTop + height2],
-			el:this.el,
-			scrollX:offset2.scrollX,
-			scrollY:offset2.scrollY
+			return {
+				leaning: side,
+				x: offset2.realLeft,
+				y: offset2.realTop,
+				width: width2,
+				height: height2,
+				tl:[offset2.realLeft, offset2.realTop],
+				tr:[offset2.realLeft + width2, offset2.realTop],
+				bl:[offset2.realLeft, offset2.realTop + height2],
+				br:[offset2.realLeft + width2, offset2.realTop + height2],
+				el:this.el,
+				scrollX:offset2.scrollX,
+				scrollY:offset2.scrollY
+			}
+		} else {
+			if (endFlag === true) {
+				return false;	
+			} else {
+				return {
+					leaning: side,
+					x: offset2.realLeft,
+					y: offset2.realTop,
+					width: width2,
+					height: height2,
+					tl:[offset2.realLeft, offset2.realTop],
+					tr:[offset2.realLeft + width2, offset2.realTop],
+					bl:[offset2.realLeft, offset2.realTop + height2],
+					br:[offset2.realLeft + width2, offset2.realTop + height2],
+					el:this.el,
+					scrollX:offset2.scrollX,
+					scrollY:offset2.scrollY
+				}
+			}
+			
 		}
 	}
 

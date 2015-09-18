@@ -194,8 +194,8 @@ function dragDefinition(Draggabilly, classie ) {
 
 	Draggable.prototype.onDragEnd = function( instance, event, pointer ) {
 		if( this.options.helper ) {
-			instance.element.style.left = instance.position.x + this.position.left + 'px';
-			instance.element.style.top = instance.position.y + this.position.top + 'px';
+			//instance.element.style.left = parseInt(this.position.left,10) + parseInt((instance.element.style.width/2),10) + 'px';
+			//instance.element.style.top = parseInt(this.position.top,10) + parseInt((instance.element.style.height/2),10) + 'px';
 		}
 
 		if( this.options.scroll ) {
@@ -208,7 +208,7 @@ function dragDefinition(Draggabilly, classie ) {
 		for( var i = 0, len = this.droppables.length; i < len; ++i ) {
 			var droppableEl = this.droppables[i];
 
-			if( droppableEl.isDroppable( instance.element ) ) {
+			if( droppableEl.isDroppableAdvanced( instance.element, true ) ) {
 				dropped = true;
 				droppableEl.collect( instance.element );
 			}

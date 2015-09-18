@@ -77,6 +77,24 @@ define([
 			iframeWindow.$('.column').each(function () {
 				droppableArr.push( Column.load(this, iframe) );
 			});
+
+			$(iframeWindow).scroll(function () {
+
+                if(iframeWindow.$('body').hasClass('drag-active')) {
+                    return;
+                }
+
+                $('#move-drag').css('display', 'none');
+            });
+
+            iframeWindow.$('body').scroll(function () {
+
+                if(iframeWindow.$('body').hasClass('drag-active')) {
+                    return;
+                }
+
+                $('#move-drag').css('display', 'none');
+            });
 		}
 	};
 
