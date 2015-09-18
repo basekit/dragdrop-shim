@@ -52,6 +52,9 @@ function dropDefinition(classie) {
 			}
 		};
 	}
+	function isiOSSafari() {
+        return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
+	}
 	// from http://responsejs.com/labs/dimensions/
 	function getViewportW() {
 		var client = docElem['clientWidth'], inner = window['innerWidth'];
@@ -63,6 +66,8 @@ function dropDefinition(classie) {
 	}
 	function scrollX() { return window.pageXOffset || docElem.scrollLeft; }
 	function scrollY() { return window.pageYOffset || docElem.scrollTop; }
+
+
 	// gets the offset of an element relative to the document
 	function getOffset( el, frameEl ) {
 		var offset = el.getBoundingClientRect(),
@@ -71,21 +76,36 @@ function dropDefinition(classie) {
 
 		// RH: need check to see if this element is contained in
 		// this window's context. If not add the the iframe windown
-		// x,y offset to the calculations. 
-		if(el.ownerDocument !== window.document && frameEl !== null &&  typeof frameEl === 'object') {
+		// x,y offset to the calculations.
+		if(frameEl !== null &&  typeof frameEl === 'object') {
 
 			iframeBoundaries = frameEl.getBoundingClientRect();
-			 // RH:This is a pain in iOS as the iframe this value yeilds a different result
-			offsetVar.top = offsetVar.top/* + iframeBoundaries.top*/;
-			offsetVar.left = offsetVar.left/* + iframeBoundaries.left*/;
+			
+			offsetVar.top = offsetVar.top + iframeBoundaries.top;
+			offsetVar.left = offsetVar.left + iframeBoundaries.left;
+
 			offsetVar.scrollX = frameEl.contentWindow.pageXOffset;
 			offsetVar.scrollY = frameEl.contentWindow.pageYOffset;
-			return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:offsetVar.scrollX, scrollY:offsetVar.scrollY }
-		} else {
-			return { top : offsetVar.top + scrollY(), left : offsetVar.left + scrollX(), realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }
-		}
 
+			return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:offsetVar.scrollX, scrollY:offsetVar.scrollY }
 		
+		} else {
+
+			// RH: Because Safari on the iPhone has decided that it want's to
+			// do things differently, it extends all frames out to their full
+			// height. This means, the top level window scrolls and not the body
+			// of the iframe, like in all other browsers.
+			// As the top of the element is still the top in a full screen editor
+			// we do everything the same BAR add the scrollX and scrollY.
+			// Thanks Apple. 
+			if(isiOSSafari() && el.ownerDocument !== window) {
+				return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }
+			}else {
+				return { top : offsetVar.top + scrollY(), left : offsetVar.left + scrollX(), realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }	
+			}
+			
+			
+		}
 	}
 	function setTransformStyle( el, tval ) { el.style.transform = tval; }
 	function onEndTransition( el, callback ) {

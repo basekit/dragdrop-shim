@@ -3,6 +3,9 @@ define([
 	"classie",
 	"drag"
 ], function($, classie, Draggable) {
+	function isiOSSafari() {
+        return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
+	}
 	var DragBehaviour = {
 		// containment = document.body
 		load: function (element, droppableArr, iframe, containment, $highlighter ) {
@@ -17,7 +20,7 @@ define([
 				drag = new Draggable( element, droppableArr, {
 					helper:true, // create a proxy to drag
 					scroll:true, // scroll when document limits reached
-					frameBody:iframe,
+					frameEl:iframe,
 					scrollable:iframe, // Which element to scroll... bar iOS pains
 					scrollSensitivity:100, // How close to the edge we should be
 					draggabilly : {

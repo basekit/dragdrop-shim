@@ -8,6 +8,10 @@ define([
 	"app/Behaviour/ColumnBehaviour"
 ], function($, Draggable, Droppable, classie, Drag, Drop, Column) {
 
+	function isiOSSafari() {
+        return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
+	}
+
 	var Editor = {
 		load: function (iframe) {
 
@@ -46,24 +50,25 @@ define([
 
 					// And position it over the widget (HARD!)
 					var offset = $(this).offset(),
-						offsetVar = {};
+						offsetVar = {},
+						scrollWin = isiOSSafari() ? window : iframe.contentWindow;
 
 					// RH:This is a pain in iOS as the iframe this value
 					// yeilds a different result as scrolling frame is the main window
 					// In all other browsers, its the iframewindow. 
-					//iframeBoundaries = iframe.getBoundingClientRect();
-					//offsetVar.top = iframeBoundaries.top;
-					//offsetVar.left = iframeBoundaries.left;
+					iframeBoundaries = iframe.getBoundingClientRect();
+					offsetVar.top = iframeBoundaries.top;
+					offsetVar.left = iframeBoundaries.left;
 
 					// Offset the handle to include the scroll offset
-					// REMEMBER! pageXOffset comes back as a negative 
-					// number, so  -- = + :$
-					offsetVar.scrollX = iframe.contentWindow.pageXOffset > 0 ? iframe.contentWindow.pageXOffset : 0;
-					offsetVar.scrollY = iframe.contentWindow.pageYOffset > 0 ? iframe.contentWindow.pageYOffset : 0;
-					
+					// REMEMBER! pageXOffset sometimes comes back as
+					// a negative number. We Math.abs() it to positive
+					offsetVar.scrollX = (isiOSSafari() ? scrollWin.pageXOffset : -(scrollWin.pageXOffset));
+					offsetVar.scrollY = (isiOSSafari() ? scrollWin.pageYOffset : -(scrollWin.pageYOffset));
+
 					$('#move-drag').offset({
-						top:offset.top - offsetVar.scrollY/* + offsetVar.top*/,
-						left:offset.left - offsetVar.scrollX/* + offsetVar.left*/
+						top:offset.top + offsetVar.scrollY + offsetVar.top,
+						left:offset.left + offsetVar.scrollX + offsetVar.left
 					});
 				});
 			});
