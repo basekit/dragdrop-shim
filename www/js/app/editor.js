@@ -1,11 +1,10 @@
 define([
 	"jquery",
-	"classie",
 	"app/Site",
 	"app/Control/SidebarControl",
 	"app/Control/ProxyControl"
 
-], function($, classie, Site, SidebarControl, ProxyControl) {
+], function($, Site, SidebarControl, ProxyControl) {
 
 	var Editor = {
 

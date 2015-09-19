@@ -10,7 +10,8 @@ define([
 
 		load: function (iframe, widgetDragElId) {
 
-			var droppableArr = []; // Remember all the droppables!
+			// Remember all the droppables!
+			var droppableArr = []; 
 
 			iframeWindow = iframe.contentWindow ? iframe.contentWindow : iframe.contentDocument.defaultView,
 
@@ -35,25 +36,27 @@ define([
             return droppableArr;
 		},
 
-		setUpScrollEvents: function (iframeWindow, widgetDragElId) {
-			// For iPhone iframe stetching...
-			$(iframeWindow).scroll(function () {
+		doScroll: function (iframeWindow, widgetDragElId) {
 
-                if(iframeWindow.$('body').hasClass('drag-active')) {
+			if(iframeWindow.$('body').hasClass('drag-active')) {
                     return;
                 }
 
-                $(widgetDragElId).css('display', 'none');
+            $(widgetDragElId).css('display', 'none');
+		},
+
+		setUpScrollEvents: function (iframeWindow, widgetDragElId) {
+
+			var self = this;
+
+			// For iPhone iframe stetching...
+			$(iframeWindow).scroll(function () {
+				self.doScroll(iframeWindow, widgetDragElId);
             });
 
 			// For everything else!
             iframeWindow.$('body').scroll(function () {
-
-                if(iframeWindow.$('body').hasClass('drag-active')) {
-                    return;
-                }
-
-                $(widgetDragElId).css('display', 'none');
+				self.doScroll(iframeWindow, widgetDragElId);
             });
 		}
 	};

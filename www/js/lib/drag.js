@@ -52,31 +52,32 @@ function dragDefinition(Draggabilly, classie ) {
 			}
 		};
 	}
-	function isNode(o){
-		return (
-			typeof Node === "object" ? o instanceof Node : o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
-		);
-	}
+
 	function isElement(o){
 		return (
 			typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
 		);
 	}
+
 	function isiOSSafari() {
         return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
 	}
+
 	// from http://responsejs.com/labs/dimensions/
 	function getViewportW() {
 		var client = docElem['clientWidth'], inner = window['innerWidth'];
 		return client < inner ? inner : client;
 	}
+
 	function getViewportH() {
 		var client = docElem['clientHeight'], inner = window['innerHeight'];
 		return client < inner ? inner : client;
 	}
+
 	function scrollX() { 
 		return window.pageXOffset || docElem.scrollLeft; 
 	}
+
 	function scrollY() { 
 		return window.pageYOffset || docElem.scrollTop; 
 	}
@@ -85,7 +86,11 @@ function dragDefinition(Draggabilly, classie ) {
 		var offset = el.getBoundingClientRect();
 		return { top : offset.top + scrollY(), left : offset.left + scrollX() }
 	}
-	function setTransformStyle( el, tval ) { el.style.transform = tval; }
+
+	function setTransformStyle( el, tval ) { 
+		el.style.transform = tval; 
+	}
+	
 	function onEndTransition( el, callback ) {
 		var onEndCallbackFn = function( ev ) {
 			if( support.transitions ) {
@@ -138,18 +143,25 @@ function dragDefinition(Draggabilly, classie ) {
 	Draggable.prototype.options = {
 		// auto scroll when dragging
 		scroll: false,
+
 		// element to scroll
 		scrollable : window,
+		
 		// scroll speed (px)
 		scrollSpeed : 20,
+		
 		// minimum distance to the scrollable element edges to trigger the scroll
 		scrollSensitivity : 10,
+		
 		// draggabilly options
 		draggabilly : {},
+		
 		// if the item should animate back to its original position
 		animBack : true,
+		
 		// clone the draggable and insert it on the same position while dragging the original one
 		helper : false,
+		
 		// callbacks
 		onStart : function() { return false; },
 		onDrag : function() { return false; },
@@ -157,12 +169,15 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.initEvents = function() {
+
 		this.draggie.on( 'dragStart', this.onDragStart.bind(this) );
 		this.draggie.on( 'dragMove', throttle( this.onDragMove.bind(this), 5 ) );
 		this.draggie.on( 'dragEnd', this.onDragEnd.bind(this) );
+
 	}
 
 	Draggable.prototype.onDragStart = function( instance, event, pointer ) {
+
 		//callback
 		this.options.onStart();
 
@@ -179,6 +194,7 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.onDragMove = function( instance, event, pointer ) {
+
 		var droppableCoords = null;
 
 		// scroll page if at viewport's edge
@@ -193,6 +209,11 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.onDragEnd = function( instance, event, pointer ) {
+		var withAnimation, 
+			droppableEl;
+			dropped, 
+			i;
+
 		if( this.options.helper && this.options.context === 'toplevel' ) {
 
 			instance.element.style.top = this.position.top + parseInt(instance.position.y,10) + 'px';
@@ -205,10 +226,12 @@ function dragDefinition(Draggabilly, classie ) {
 			this.scrollIncrement = 0;
 		}
 
-		// if the draggable && droppable elements intersect then "drop" and move back the draggable
-		var dropped = false;
-		for( var i = 0, len = this.droppables.length; i < len; ++i ) {
-			var droppableEl = this.droppables[i];
+		// if the draggable && droppable elements intersect 
+		// then "drop" and move back the draggable
+
+		dropped = false;
+		for( i = 0, len = this.droppables.length; i < len; ++i ) {
+			droppableEl = this.droppables[i];
 
 			if( droppableEl.isDroppableAdvanced( instance.element, true ) ) {
 				dropped = true;
@@ -219,7 +242,7 @@ function dragDefinition(Draggabilly, classie ) {
 		//callback
 		this.options.onEnd( dropped );
 
-		var withAnimation = true;
+		withAnimation = true;
 		
 		if( dropped ) {
 			// add class is-dropped to draggable ( controls how the draggable appears again at its original position)
@@ -255,6 +278,7 @@ function dragDefinition(Draggabilly, classie ) {
 	Draggable.prototype.highlightDroppables = function( el ) {
 		var hoverCoords = null,
 			droppableCoords = null;
+
 		for( var i = 0, len = this.droppables.length; i < len; ++i ) {
 			droppableCoords = this.droppables[i].highlight( this.el );
 			if( droppableCoords.leaning !== false ) {
@@ -266,14 +290,20 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.createHelper = function() {
+
+		var draggable, 
+			clone;
+
 		// clone the original item (same position)
-		var clone = this.el.cloneNode( true );
+		clone = this.el.cloneNode( true );
+		
 		// because the original element started the dragging, we need to remove the is-dragging class
 		classie.remove( clone, 'is-dragging' );
 		this.el.parentNode.replaceChild( clone, this.el );
 		
 		// initialize Draggabilly on the clone.. 
-		var draggable = new Draggable( clone, this.droppables, this.options );
+		draggable = new Draggable( clone, this.droppables, this.options );
+
 		// the original item will be absolute on the page - need to set correct position values..
 		classie.add( this.el, 'helper' );
 
@@ -285,25 +315,32 @@ function dragDefinition(Draggabilly, classie ) {
 		this.position.top = draggable.offset.top;
 
 		body.appendChild( this.el );
+
 		classie.add( clone, 'is-drag-original' );
 	}
 
 	// move back the draggable to its original position
 	Draggable.prototype.moveBack = function( withAnimation ) {
 
-		var anim = this.options.animBack && withAnimation;
+		var callbackFn, 
+			anim;
+
+		anim = this.options.animBack && withAnimation;
 
 		// add animate class (where the transition is defined)
 		if( anim ) { 
 			classie.add( this.el, 'animate' ); 
 		}
+		
 		// reset translation value
 		setTransformStyle( this.el, is3d ? 'translate3d(0,0,0)' : 'translate(0,0)' );
+		
 		// apply original left/top
 		this.el.style.left = this.position.left + 'px';
 		this.el.style.top = this.position.top + 'px';
+		
 		// remove class animate (transition) and is-active to the draggable element (z-index)
-		var callbackFn = function() {
+		callbackFn = function() {
 
 			if( anim ) { 
 				classie.remove( this.el, 'animate' ); 
@@ -357,18 +394,29 @@ function dragDefinition(Draggabilly, classie ) {
 	// todo: scroll right and left
 	// todo: draggabilly multi touch scroll: see https://github.com/desandro/draggabilly/issues/1
 	Draggable.prototype.doScroll = function() {
-		var speed = this.options.scrollSpeed || 20;
+		var speed, val;
+		
+		speed = this.options.scrollSpeed || 20;
 		this.scrollIncrement++;
-		var val = this.scrollIncrement < speed ? this.scrollIncrement : speed;
+		val = this.scrollIncrement < speed ? this.scrollIncrement : speed;
 
-		// If iOS Safari, (ouch...) scroll this window
 		if(isiOSSafari()) {
+
+			// If iOS Safari, (ouch...) scroll this window
 			// Set timeout is needed to fix scrolling on iPhone safari
 			setTimeout(window.scrollTo( 0, this.scrolldir === 'up' ? window.pageYOffset + (val * -1) : window.pageYOffset + val ),10) ;
-		// If iframe object
-		} else if(isElement(this.scrollableEl) && typeof this.scrollableEl.contentWindow === 'object') {
+		
+		} else if(
+
+			// If iframe is the scrollable element
+			isElement(this.scrollableEl) && 
+			typeof this.scrollableEl.contentWindow === 'object'
+
+		) {
 			// Set timeout is needed to fix scrolling on iPhone safari
 			setTimeout(this.scrollableEl.contentWindow.scrollTo( 0, this.scrolldir === 'up' ? this.scrollableEl.contentWindow.pageYOffset + (val * -1) : this.scrollableEl.contentWindow.pageYOffset + val ),10) ;
+		
+		// Else scroll the element
 		} else {
 			this.scrollableEl.scrollTop += this.scrolldir === 'up' ? val * -1 : val;
 		}
