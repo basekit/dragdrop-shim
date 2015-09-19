@@ -4,7 +4,7 @@ define([
 	"app/Behaviour/DragBehaviour",
 ], function($, Draggable, Drag) {
 	
-	var SidebarControl = {
+	var SideBarControl = {
 
 		load: function (iframe, droppableArr, $dragHighlight) {
 
@@ -17,5 +17,5 @@ define([
 		}
 	};
 
-	return SidebarControl;
+	return SideBarControl;
 });

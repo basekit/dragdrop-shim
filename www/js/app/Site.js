@@ -3,8 +3,8 @@ define([
 	"drop", 
 	"app/Behaviour/DropBehaviour",
 	"app/Behaviour/ColumnBehaviour",
-	"app/Behaviour/WidgetDragBehaviour"
-], function($, Droppable, Drop, Column, WidgetDragBehaviour) {
+	"app/Behaviour/WidgetSelectBehaviour"
+], function($, Droppable, Drop, Column, WidgetSelectBehaviour) {
 	
 	var Site = {
 
@@ -16,7 +16,7 @@ define([
 
 			// Setup Drag Behaviour for all widgets...
 			iframeWindow.$('.widget').each(function () {
-				WidgetDragBehaviour.load(this, iframe, widgetDragElId);
+				WidgetSelectBehaviour.load(this, iframe, widgetDragElId);
 			});
 
 			// Set up all the droppables (widgets)
