@@ -8,7 +8,7 @@ define([
 	
 	var Site = {
 
-		load: function (iframe, widgetDragElId) {
+		load: function (iframe, widgetDragElId, columnDragElId) {
 
 			// Remember all the droppables!
 			var droppableArr = []; 
@@ -31,32 +31,33 @@ define([
 				droppableArr.push( Column.load(this, iframe) );
 			});
 
-			this.setUpScrollEvents(iframeWindow, widgetDragElId);
+			this.setUpScrollEvents(iframeWindow, widgetDragElId, columnDragElId);
 
             return droppableArr;
 		},
 
-		doScroll: function (iframeWindow, widgetDragElId) {
+		doScroll: function (iframeWindow, widgetDragElId, columnDragElId) {
 
 			if(iframeWindow.$('body').hasClass('drag-active')) {
                     return;
                 }
 
             $(widgetDragElId).css('display', 'none');
+            $(columnDragElId).css('display', 'none');
 		},
 
-		setUpScrollEvents: function (iframeWindow, widgetDragElId) {
+		setUpScrollEvents: function (iframeWindow, widgetDragElId, columnDragElId) {
 
 			var self = this;
 
 			// For iPhone iframe stetching...
 			$(iframeWindow).scroll(function () {
-				self.doScroll(iframeWindow, widgetDragElId);
+				self.doScroll(iframeWindow, widgetDragElId, columnDragElId);
             });
 
 			// For everything else!
             iframeWindow.$('body').scroll(function () {
-				self.doScroll(iframeWindow, widgetDragElId);
+				self.doScroll(iframeWindow, widgetDragElId, columnDragElId);
             });
 		}
 	};

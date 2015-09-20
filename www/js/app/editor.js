@@ -22,11 +22,16 @@ define([
 			
 			$dragHighlight = iframeWindow.$('#drop-highlight');
 			widgetDragElId = '#move-drag',
+			columnDragElId = '#column-drag',
 			
-			droppableArr = Site.load(iframe, widgetDragElId);
+			droppableArr = Site.load(iframe, widgetDragElId, columnDragElId);
 
 			SidebarControl.load(iframe, droppableArr, $dragHighlight);
 			ProxyControl.load(iframe, droppableArr, $dragHighlight);
+
+			$('#column-drag').on('mouseover', function (e) {
+				e.preventDefault();
+			});
 
 			// Add button!
 			$('#add-button').on('click', function () {

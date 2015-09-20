@@ -65,6 +65,13 @@
 	display: block;
 }
 
+#column-drag {
+	display: none;
+	position: absolute;
+	background-color: #7986cb;
+	pointer-events: none;
+}
+
 .helper {
 	z-index:1000;
 	position:absolute;

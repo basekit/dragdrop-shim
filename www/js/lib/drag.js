@@ -210,8 +210,9 @@ function dragDefinition(Draggabilly, classie ) {
 
 	Draggable.prototype.onDragEnd = function( instance, event, pointer ) {
 		var withAnimation, 
-			droppableEl;
+			droppableEl,
 			dropped, 
+			len,
 			i;
 
 		if( this.options.helper && this.options.context === 'toplevel' ) {

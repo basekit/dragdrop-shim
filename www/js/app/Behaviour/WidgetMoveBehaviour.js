@@ -11,8 +11,9 @@ define([
 
 			var iframeBoundaries = null,
 				offset = $(el).offset(),
-				offsetVar = {},
-				scrollWin = isiOSSafari() ? window : frame.contentWindow;
+				frameOffset = {},
+				iframeWindow = frame.contentWindow ? frame.contentWindow : frame.contentDocument.defaultView
+				scrollWin = isiOSSafari() ? window : iframeWindow;
 
 			// Show a drag handle in the main document
 			// And position it over the widget
@@ -24,8 +25,8 @@ define([
 			// In all other browsers, its the iframewindow. 
 			iframeBoundaries = frame.getBoundingClientRect();
 
-			offsetVar.top = iframeBoundaries.top;
-			offsetVar.left = iframeBoundaries.left;
+			frameOffset.top = iframeBoundaries.top;
+			frameOffset.left = iframeBoundaries.left;
 
 			// Offset the handle to include the scroll offset.
 			// iOS likes the stretch all frames out to their 
@@ -46,17 +47,17 @@ define([
 			//      -- scroll decreases negatively (when we flip it)	= -75
 			//      -- frame offset never changes						= 100
 			//
-			offsetVar.scrollX = (isiOSSafari() ? scrollWin.pageXOffset : -(scrollWin.pageXOffset));
-			offsetVar.scrollY = (isiOSSafari() ? scrollWin.pageYOffset : -(scrollWin.pageYOffset));
+			frameOffset.scrollX = (isiOSSafari() ? scrollWin.pageXOffset : -(scrollWin.pageXOffset));
+			frameOffset.scrollY = (isiOSSafari() ? scrollWin.pageYOffset : -(scrollWin.pageYOffset));
 
 			// TEST LOG
 			//console.log(offset.top);
-			//console.log(offsetVar.scrollY);
-			//console.log(offsetVar.top);
+			//console.log(frameOffset.scrollY);
+			//console.log(frameOffset.top);
 
 			$(widgetDragElId).offset({
-				top:offset.top + offsetVar.scrollY + offsetVar.top,
-				left:offset.left + offsetVar.scrollX + offsetVar.left
+				top:offset.top + frameOffset.scrollY + frameOffset.top,
+				left:offset.left + frameOffset.scrollX + frameOffset.left
 			});
 		}
 	};
