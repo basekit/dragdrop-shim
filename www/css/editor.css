@@ -59,7 +59,6 @@ iframe {
 
 #sidebar {
 	overflow: visible;
-	display: none;
 	list-style: none;
 	*zoom: 1;
 }
