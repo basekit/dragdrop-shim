@@ -1,19 +1,13 @@
-define([
-	"jquery", 
-	"drop", 
-	"app/Behaviour/DropBehaviour",
-	"app/Behaviour/ColumnBehaviour",
-	"app/Behaviour/WidgetSelectBehaviour"
-], function($, Droppable, Drop, Column, WidgetSelectBehaviour) {
-	
-	var Site = {
+(function($, Droppable, Drop, Column, WidgetSelectBehaviour) {
+    'use strict';
+
+	window.Site = {
 
 		load: function (iframe, widgetDragElId, columnDragElId) {
 
 			// Remember all the droppables!
-			var droppableArr = []; 
-
-			iframeWindow = iframe.contentWindow ? iframe.contentWindow : iframe.contentDocument.defaultView,
+			var droppableArr = [],
+			    iframeWindow = iframe.contentWindow ? iframe.contentWindow : iframe.contentDocument.defaultView;
 
 			// Setup Drag Behaviour for all widgets...
 			iframeWindow.$('.widget').each(function () {
@@ -61,6 +55,4 @@ define([
             });
 		}
 	};
-
-	return Site;
-});
+}($, window.Droppable, window.DropBehaviour, window.ColumnBehaviour, window.WidgetSelectBehaviour));

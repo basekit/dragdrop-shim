@@ -1,14 +1,13 @@
-define([
-	"drop",
-	"jquery"
-], function(Droppable, $) {
-	var DropBehaviour = {
+(function(Droppable, $) {
+    'use strict';
+
+	window.DropBehaviour = {
 		load: function (el, iframe) {
 			return new Droppable( el, {
 				onDrop: function () {
 					console.log(arguments);
 					var dropEl = arguments[0].el;
-					
+
 					// Just highlight the element for now!
 					$(dropEl).addClass('drop-feedback');
 					setTimeout(function () {
@@ -20,7 +19,4 @@ define([
 			});
 		}
 	};
-
-	return DropBehaviour;
-		
-});
+}(window.Droppable, $));

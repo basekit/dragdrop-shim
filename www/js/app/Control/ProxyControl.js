@@ -1,10 +1,7 @@
-define([
-	"jquery",
-	"drag",
-	"app/Behaviour/DragBehaviour",
-], function($, Draggable, Drag) {
-	
-	var ProxyControl = {
+(function($, Draggable, Drag) {
+    'use strict';
+
+	window.ProxyControl = {
 
 		load: function (iframe, droppableArr, $dragHighlight) {
 
@@ -14,6 +11,4 @@ define([
 
 		}
 	};
-
-	return ProxyControl;
-});
+}($, window.Draggable, window.DragBehaviour));

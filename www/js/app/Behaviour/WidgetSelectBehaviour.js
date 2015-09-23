@@ -1,9 +1,7 @@
-define([
-	"jquery",
-	"app/Behaviour/WidgetMoveBehaviour"
-], function($, WidgetMoveBehaviour) {
+(function($, WidgetMoveBehaviour) {
+    'use strict';
 
-	var WidgetSelectBehaviour = {
+	window.WidgetSelectBehaviour = {
 		load: function (el, frame, widgetDragElId) {
 
 			var iframeBoundaries = null;
@@ -12,11 +10,8 @@ define([
 			frame.contentWindow.$(el).on('mousedown', function () {
 
 				WidgetMoveBehaviour.load(this, frame, widgetDragElId)
-			
+
 			});
 		}
 	};
-
-	return WidgetSelectBehaviour;
-		
-});
+}($, window.WidgetMoveBehaviour));

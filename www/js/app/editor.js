@@ -1,29 +1,24 @@
-define([
-	"jquery",
-	"app/Site",
-	"app/Control/SidebarControl",
-	"app/Control/ProxyControl"
+(function ($, Site, SidebarControl, ProxyControl) {
+    'use strict';
 
-], function($, Site, SidebarControl, ProxyControl) {
-
-	var Editor = {
+	window.Editor = {
 
 		load: function (iframe) {
 
 			var droppableArr = [],
-				iframeWindow = iframe.contentWindow ? iframe.contentWindow : iframe.contentDocument.defaultView;
+				iframeWindow = iframe.contentWindow ? iframe.contentWindow : iframe.contentDocument.defaultView,
+                $dragHighlight = iframeWindow.$('#drop-highlight'),
+                widgetDragElId = '#move-drag',
+                columnDragElId = '#column-drag';
 
 			// You have to frame, to play!
-			if (typeof iframe !== 'object' || 
+			if (typeof iframe !== 'object' ||
 				iframe.nodeName !== "IFRAME"
 			) {
 				throw "Site IFRAME element required."
 			}
-			
-			$dragHighlight = iframeWindow.$('#drop-highlight');
-			widgetDragElId = '#move-drag',
-			columnDragElId = '#column-drag',
-			
+
+
 			droppableArr = Site.load(iframe, widgetDragElId, columnDragElId);
 
 			SidebarControl.load(iframe, droppableArr, $dragHighlight);
@@ -37,9 +32,7 @@ define([
 			$('#add-button').on('click', function () {
 				$('body').toggleClass('show-sidebar');
 			});
-			
+
 		}
 	};
-
-	return Editor;
-});
+}($, window.Site, window.SidebarControl, window.ProxyControl));

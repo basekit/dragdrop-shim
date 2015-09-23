@@ -4,14 +4,14 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2014, Codrops
  * http://www.codrops.com
  *
  * Modified by http://www.basekit.com
  * - Made code AMD ready!
- * 
- * Original Code found here: 
+ *
+ * Original Code found here:
  * http://tympanus.net/codrops/2014/11/11/drag-and-drop-interaction-ideas/
  */
 ;( function(window) {
@@ -34,7 +34,7 @@ function dropDefinition(classie) {
 		threshhold || (threshhold = 250);
 		var last,
 			deferTimer;
-		
+
 		return function () {
 			var context = scope || this;
 			var now = +new Date,
@@ -80,7 +80,7 @@ function dropDefinition(classie) {
 		if(frameEl !== null &&  typeof frameEl === 'object') {
 
 			iframeBoundaries = frameEl.getBoundingClientRect();
-			
+
 			offsetVar.top = offsetVar.top + iframeBoundaries.top;
 			offsetVar.left = offsetVar.left + iframeBoundaries.left;
 
@@ -88,7 +88,7 @@ function dropDefinition(classie) {
 			offsetVar.scrollY = frameEl.contentWindow.pageYOffset;
 
 			return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:offsetVar.scrollX, scrollY:offsetVar.scrollY }
-		
+
 		} else {
 
 			// RH: Because Safari on the iPhone has decided that it want's to
@@ -97,14 +97,14 @@ function dropDefinition(classie) {
 			// of the iframe, like in all other browsers.
 			// As the top of the element is still the top in a full screen editor
 			// we do everything the same BAR add the scrollX and scrollY.
-			// Thanks Apple. 
+			// Thanks Apple.
 			if(isiOSSafari() && el.ownerDocument !== window) {
 				return { top : offsetVar.top, left : offsetVar.left, realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }
 			}else {
-				return { top : offsetVar.top + scrollY(), left : offsetVar.left + scrollX(), realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }	
+				return { top : offsetVar.top + scrollY(), left : offsetVar.left + scrollX(), realTop : offset.top, realLeft : offset.left, scrollX:scrollX(), scrollY:scrollY()   }
 			}
-			
-			
+
+
 		}
 	}
 	function setTransformStyle( el, tval ) { el.style.transform = tval; }
@@ -124,7 +124,7 @@ function dropDefinition(classie) {
 		}
 	}
 	function extend( a, b ) {
-		for( var key in b ) { 
+		for( var key in b ) {
 			if( b.hasOwnProperty( key ) ) {
 				a[key] = b[key];
 			}
@@ -158,8 +158,8 @@ function dropDefinition(classie) {
 		var offset1 = getOffset( draggableEl, null ), width1 = draggableEl.offsetWidth, height1 = draggableEl.offsetHeight,
 			offset2 = getOffset( this.el, this.options.frameEl ), width2 = this.el.offsetWidth, height2 = this.el.offsetHeight;
 
-		return !(offset2.left > offset1.left + width1 - width1/2 || 
-				offset2.left + width2 < offset1.left + width1/2 || 
+		return !(offset2.left > offset1.left + width1 - width1/2 ||
+				offset2.left + width2 < offset1.left + width1/2 ||
 				offset2.top > offset1.top + height1 - height1/2 ||
 				offset2.top + height2 < offset1.top + height1/2 );
 	}
@@ -171,25 +171,25 @@ function dropDefinition(classie) {
 			side = false;
 
 		// if inside...
-		if(!(offset2.left > offset1.left + width1 - width1/2 || 
-				offset2.left + width2 < offset1.left + width1/2 || 
+		if(!(offset2.left > offset1.left + width1 - width1/2 ||
+				offset2.left + width2 < offset1.left + width1/2 ||
 				offset2.top > offset1.top + height1 - height1/2 ||
 				offset2.top + height2 < offset1.top + height1/2 )) {
 			// ...then check leaning..
 			// calculation description. At this point we know we are inside the drop boundaries
-			// left: if drag left edge is gr than drop left edge + 30px 
+			// left: if drag left edge is gr than drop left edge + 30px
 			if (offset1.left + width1 > offset2.left + width2 - 30) {
 				side = 'right';
 			// top: if drag top edge in the top half of the drop
 			} else if (offset1.left < offset2.left + 30) {
 				side = 'left';
-			// right: if drag right edge is greater than drop right edge - 30px 
+			// right: if drag right edge is greater than drop right edge - 30px
 			} else if(offset1.top + height1/2 > offset2.top + height2/2){
 				side = 'bottom'
 			} else if(offset1.top + height1/2 < offset2.top + height2/2){
 				side = 'top'
 			// bottom: if drag top edge in the bottom half of the drop
-			} 
+			}
 
 			return {
 				leaning: side,
@@ -207,7 +207,7 @@ function dropDefinition(classie) {
 			}
 		} else {
 			if (endFlag === true) {
-				return false;	
+				return false;
 			} else {
 				return {
 					leaning: side,
@@ -224,7 +224,7 @@ function dropDefinition(classie) {
 					scrollY:offset2.scrollY
 				}
 			}
-			
+
 		}
 	}
 
@@ -232,7 +232,7 @@ function dropDefinition(classie) {
 	// RH - add leaning class; top, right, left, bottom
 	Droppable.prototype.highlight = function( draggableEl ) {
 		var droppableCords = this.isDroppableAdvanced( draggableEl );
-		
+
 		if( droppableCords.leaning !== false ) {
 			classie.add( this.el, 'highlight' );
 			// Check if leaning is different to previous check...
@@ -280,7 +280,7 @@ if ( typeof define === 'function' && define.amd ) {
   );
 } else {
   // browser global
-  window.Draggable = dropDefinition(
+  window.Droppable = dropDefinition(
     window.classie
   );
 }

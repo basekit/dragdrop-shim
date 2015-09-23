@@ -1,18 +1,17 @@
-define([
-	"jquery"
-], function($) {
+(function($) {
+    'use strict';
 
 	function isiOSSafari() {
         return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
 	}
 
-	var WidgetMoveBehaviour = {
+	window.WidgetMoveBehaviour = {
 		load: function (el, frame, widgetDragElId) {
 
 			var iframeBoundaries = null,
 				offset = $(el).offset(),
 				frameOffset = {},
-				iframeWindow = frame.contentWindow ? frame.contentWindow : frame.contentDocument.defaultView
+				iframeWindow = frame.contentWindow ? frame.contentWindow : frame.contentDocument.defaultView,
 				scrollWin = isiOSSafari() ? window : iframeWindow;
 
 			// Show a drag handle in the main document
@@ -22,18 +21,18 @@ define([
 
 			// RH:This is a pain in iOS as the iframe this value
 			// yeilds a different result as scrolling frame is the main window
-			// In all other browsers, its the iframewindow. 
+			// In all other browsers, its the iframewindow.
 			iframeBoundaries = frame.getBoundingClientRect();
 
 			frameOffset.top = iframeBoundaries.top;
 			frameOffset.left = iframeBoundaries.left;
 
 			// Offset the handle to include the scroll offset.
-			// iOS likes the stretch all frames out to their 
+			// iOS likes the stretch all frames out to their
 			// full height, rather than letting them scroll
-			// in the window (rather annoying!). So we have 
+			// in the window (rather annoying!). So we have
 			// to use the main window scroll offset, rather
-			// than the iframe window scroll offset. 
+			// than the iframe window scroll offset.
 			// ----------------------------------------------
 			// Why is one number positive and one number negative?
 			//
@@ -61,7 +60,4 @@ define([
 			});
 		}
 	};
-
-	return WidgetMoveBehaviour;
-		
-});
+}($));

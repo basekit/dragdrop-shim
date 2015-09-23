@@ -1,18 +1,17 @@
-define([
-	"jquery",
-	"app/Behaviour/DropBehaviour"
-], function($, Drop ) {
+(function($, Drop) {
+    'use strict';
+
 	function isiOSSafari() {
         return (navigator.userAgent.match(/Version\/[\d\.]+.*Safari/) && /iPad|iPhone|iPod/.test(navigator.platform)) ? true : false;
 	}
-	var ColumnBehaviour = {
+
+	window.ColumnBehaviour = {
 		load: function (el, iframe) {
 
 			var $dropEl = this.createDropEl(),
 				timeout = null,
-				self = this;
-
-			$el = $(el);			
+				self = this,
+			    $el = $(el);
 
 			$el.append($dropEl);
 
@@ -58,8 +57,8 @@ define([
 				positionY = 0,
 				width = (side === 'right' ? parseInt($el.width(),10) : 0);
 
-			// These positionX / positionY calculations are 
-			// explained in WidgetMoveBehaviour load function. 
+			// These positionX / positionY calculations are
+			// explained in WidgetMoveBehaviour load function.
 			frameOffset.top = iframeBoundaries.top;
 			frameOffset.left = iframeBoundaries.left;
 			frameOffset.scrollX = (isiOSSafari() ? scrollWin.pageXOffset : -(scrollWin.pageXOffset));
@@ -116,7 +115,4 @@ define([
 			}
 		}
 	};
-
-	return ColumnBehaviour;
-		
-});
+}($, window.DropBehaviour));
