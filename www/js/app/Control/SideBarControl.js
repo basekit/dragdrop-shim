@@ -8,7 +8,7 @@
 	    	// Set all the draggables, in this demo, this is just
 	    	// the NEW WIDGETS from the Pop-ups and sidebars
 			$('.sidebar-drag').each(function () {
-				Drag.load(this, droppableArr, iframe, document.body, $dragHighlight, 'toplevel');
+				Drag.load({ el: this }, droppableArr, iframe, document.body, $dragHighlight, 'toplevel');
 			});
 
 		}

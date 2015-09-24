@@ -6,7 +6,7 @@
 		load: function (iframe, droppableArr, $dragHighlight) {
 
 	    	$('.site-drag').each(function () {
-				Drag.load(this, droppableArr, iframe, document.body, $dragHighlight, 'frame');
+				Drag.load({ el: this }, droppableArr, iframe, document.body, $dragHighlight, 'frame');
 			});
 
 		}

@@ -254,10 +254,10 @@ function dropDefinition(classie) {
 	}
 
 	// accepts a draggable element...
-	Droppable.prototype.collect = function( draggableEl ) {
+	Droppable.prototype.collect = function( draggableEl, draggableObject ) {
 		// remove highlight class from droppable element
 		classie.remove( this.el, 'highlight' );
-		this.options.onDrop( this, draggableEl , this.leaning);
+		this.options.onDrop( this, draggableObject, this.leaning);
 		this.leaning = null;
 	}
 

@@ -4,14 +4,14 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2014, Codrops
  * http://www.codrops.com
  *
  * Modified by BaseKit Platform Ltd
  * - Made code AMD ready!
- * 
- * Original Code found here: 
+ *
+ * Original Code found here:
  * http://tympanus.net/codrops/2014/11/11/drag-and-drop-interaction-ideas/
  */
 ;( function( window ) {
@@ -34,7 +34,7 @@ function dragDefinition(Draggabilly, classie ) {
 		threshhold || (threshhold = 250);
 		var last,
 			deferTimer;
-		
+
 		return function () {
 			var context = scope || this;
 			var now = +new Date,
@@ -74,12 +74,12 @@ function dragDefinition(Draggabilly, classie ) {
 		return client < inner ? inner : client;
 	}
 
-	function scrollX() { 
-		return window.pageXOffset || docElem.scrollLeft; 
+	function scrollX() {
+		return window.pageXOffset || docElem.scrollLeft;
 	}
 
-	function scrollY() { 
-		return window.pageYOffset || docElem.scrollTop; 
+	function scrollY() {
+		return window.pageYOffset || docElem.scrollTop;
 	}
 	// gets the offset of an element relative to the document
 	function getOffset( el ) {
@@ -87,10 +87,10 @@ function dragDefinition(Draggabilly, classie ) {
 		return { top : offset.top + scrollY(), left : offset.left + scrollX() }
 	}
 
-	function setTransformStyle( el, tval ) { 
-		el.style.transform = tval; 
+	function setTransformStyle( el, tval ) {
+		el.style.transform = tval;
 	}
-	
+
 	function onEndTransition( el, callback ) {
 		var onEndCallbackFn = function( ev ) {
 			if( support.transitions ) {
@@ -108,7 +108,7 @@ function dragDefinition(Draggabilly, classie ) {
 		}
 	}
 	function extend( a, b ) {
-		for( var key in b ) { 
+		for( var key in b ) {
 			if( b.hasOwnProperty( key ) ) {
 				a[key] = b[key];
 			}
@@ -146,22 +146,22 @@ function dragDefinition(Draggabilly, classie ) {
 
 		// element to scroll
 		scrollable : window,
-		
+
 		// scroll speed (px)
 		scrollSpeed : 20,
-		
+
 		// minimum distance to the scrollable element edges to trigger the scroll
 		scrollSensitivity : 10,
-		
+
 		// draggabilly options
 		draggabilly : {},
-		
+
 		// if the item should animate back to its original position
 		animBack : true,
-		
+
 		// clone the draggable and insert it on the same position while dragging the original one
 		helper : false,
-		
+
 		// callbacks
 		onStart : function() { return false; },
 		onDrag : function() { return false; },
@@ -209,16 +209,16 @@ function dragDefinition(Draggabilly, classie ) {
 	}
 
 	Draggable.prototype.onDragEnd = function( instance, event, pointer ) {
-		var withAnimation, 
+		var withAnimation,
 			droppableEl,
-			dropped, 
+			dropped,
 			len,
 			i;
 
 		if( this.options.helper && this.options.context === 'toplevel' ) {
 
 			instance.element.style.top = this.position.top + parseInt(instance.position.y,10) + 'px';
-			instance.element.style.left = this.position.left + parseInt(instance.position.x,10) + 'px';	
+			instance.element.style.left = this.position.left + parseInt(instance.position.x,10) + 'px';
 
 		}
 
@@ -227,7 +227,7 @@ function dragDefinition(Draggabilly, classie ) {
 			this.scrollIncrement = 0;
 		}
 
-		// if the draggable && droppable elements intersect 
+		// if the draggable && droppable elements intersect
 		// then "drop" and move back the draggable
 
 		dropped = false;
@@ -236,7 +236,7 @@ function dragDefinition(Draggabilly, classie ) {
 
 			if( droppableEl.isDroppableAdvanced( instance.element, true ) ) {
 				dropped = true;
-				droppableEl.collect( instance.element );
+				droppableEl.collect( instance.element, this.options.draggableObject );
 			}
 		}
 
@@ -244,14 +244,14 @@ function dragDefinition(Draggabilly, classie ) {
 		this.options.onEnd( dropped );
 
 		withAnimation = true;
-		
+
 		if( dropped ) {
 			// add class is-dropped to draggable ( controls how the draggable appears again at its original position)
 			classie.add( instance.element, 'is-dropped' );
 			// after a timeout remove that class to trigger the transition
 			setTimeout( function() {
 				classie.add( instance.element, 'is-complete' );
-				
+
 				onEndTransition( instance.element, function() {
 					classie.remove( instance.element, 'is-complete' );
 					classie.remove( instance.element, 'is-dropped' );
@@ -292,17 +292,17 @@ function dragDefinition(Draggabilly, classie ) {
 
 	Draggable.prototype.createHelper = function() {
 
-		var draggable, 
+		var draggable,
 			clone;
 
 		// clone the original item (same position)
 		clone = this.el.cloneNode( true );
-		
+
 		// because the original element started the dragging, we need to remove the is-dragging class
 		classie.remove( clone, 'is-dragging' );
 		this.el.parentNode.replaceChild( clone, this.el );
-		
-		// initialize Draggabilly on the clone.. 
+
+		// initialize Draggabilly on the clone..
 		draggable = new Draggable( clone, this.droppables, this.options );
 
 		// the original item will be absolute on the page - need to set correct position values..
@@ -323,28 +323,28 @@ function dragDefinition(Draggabilly, classie ) {
 	// move back the draggable to its original position
 	Draggable.prototype.moveBack = function( withAnimation ) {
 
-		var callbackFn, 
+		var callbackFn,
 			anim;
 
 		anim = this.options.animBack && withAnimation;
 
 		// add animate class (where the transition is defined)
-		if( anim ) { 
-			classie.add( this.el, 'animate' ); 
+		if( anim ) {
+			classie.add( this.el, 'animate' );
 		}
-		
+
 		// reset translation value
 		setTransformStyle( this.el, is3d ? 'translate3d(0,0,0)' : 'translate(0,0)' );
-		
+
 		// apply original left/top
 		this.el.style.left = this.position.left + 'px';
 		this.el.style.top = this.position.top + 'px';
-		
+
 		// remove class animate (transition) and is-active to the draggable element (z-index)
 		callbackFn = function() {
 
-			if( anim ) { 
-				classie.remove( this.el, 'animate' ); 
+			if( anim ) {
+				classie.remove( this.el, 'animate' );
 			}
 			classie.remove( this.el, 'is-active' );
 			if( this.options.helper ) {
@@ -396,7 +396,7 @@ function dragDefinition(Draggabilly, classie ) {
 	// todo: draggabilly multi touch scroll: see https://github.com/desandro/draggabilly/issues/1
 	Draggable.prototype.doScroll = function() {
 		var speed, val;
-		
+
 		speed = this.options.scrollSpeed || 20;
 		this.scrollIncrement++;
 		val = this.scrollIncrement < speed ? this.scrollIncrement : speed;
@@ -406,17 +406,17 @@ function dragDefinition(Draggabilly, classie ) {
 			// If iOS Safari, (ouch...) scroll this window
 			// Set timeout is needed to fix scrolling on iPhone safari
 			setTimeout(window.scrollTo( 0, this.scrolldir === 'up' ? window.pageYOffset + (val * -1) : window.pageYOffset + val ),10) ;
-		
+
 		} else if(
 
 			// If iframe is the scrollable element
-			isElement(this.scrollableEl) && 
+			isElement(this.scrollableEl) &&
 			typeof this.scrollableEl.contentWindow === 'object'
 
 		) {
 			// Set timeout is needed to fix scrolling on iPhone safari
 			setTimeout(this.scrollableEl.contentWindow.scrollTo( 0, this.scrolldir === 'up' ? this.scrollableEl.contentWindow.pageYOffset + (val * -1) : this.scrollableEl.contentWindow.pageYOffset + val ),10) ;
-		
+
 		// Else scroll the element
 		} else {
 			this.scrollableEl.scrollTop += this.scrolldir === 'up' ? val * -1 : val;
@@ -433,7 +433,7 @@ if ( typeof define === 'function' && define.amd ) {
   // AMD
   define( [
   	'draggabilly',
-	'classie'		
+	'classie'
     ],
     dragDefinition );
 } else if ( typeof exports === 'object' ) {

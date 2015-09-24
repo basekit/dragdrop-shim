@@ -7,7 +7,7 @@
 
 	window.DragBehaviour = {
 		// containment = document.body
-		load: function (element, droppableArr, iframe, containment, $highlighter, context ) {
+		load: function (draggable, droppableArr, iframe, containment, $highlighter, context ) {
 			var self = this,
 				dropAreaTimeout = null,
 
@@ -16,7 +16,8 @@
 				// ...and the body
 				iframeBody = $(iframeWindow.document.body)[0],
 
-				drag = new Draggable( element, droppableArr, {
+				drag = new Draggable( draggable.el, droppableArr, {
+                    draggableObject: draggable,
 					helper:true, // create a proxy to drag
 					scroll:true, // scroll when document limits reached
 					frameEl:iframe,
