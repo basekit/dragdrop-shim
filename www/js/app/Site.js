@@ -17,7 +17,7 @@
 			// Set up all the droppables (widgets)
 			// This will receive dragglables.
 	    	iframeWindow.$('.droppable').each(function () {
-				droppableArr.push( Drop.load(this, iframe) );
+				droppableArr.push( Drop.load({ el: this }, iframe) );
 			});
 
 			// Set up the columns blank space drops

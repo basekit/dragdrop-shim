@@ -2,8 +2,9 @@
     'use strict';
 
 	window.DropBehaviour = {
-		load: function (el, iframe) {
-			return new Droppable( el, {
+		load: function (obj, iframe) {
+			return new Droppable( obj.el, {
+                droppableObject: obj,
 				onDrop: function () {
 					console.log(arguments);
 					var dropEl = arguments[0].el;

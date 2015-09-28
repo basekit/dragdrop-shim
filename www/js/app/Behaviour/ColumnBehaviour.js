@@ -28,7 +28,7 @@
 				}, 10);
 			});
 
-			return Drop.load( $dropEl[0], iframe);
+			return Drop.load( { el: $dropEl[0] }, iframe);
 		},
 
 		setUpResizeHandle: function (el, iframe) {
