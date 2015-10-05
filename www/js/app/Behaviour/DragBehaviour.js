@@ -169,6 +169,7 @@
 						iframeWindow.$('.column-drop').removeClass('highlight');
 					}
 				});
+            return drag;
 		},
 
 		// Sets the XY position of the indicator
