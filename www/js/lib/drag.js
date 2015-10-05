@@ -176,10 +176,6 @@ function dragDefinition(Draggabilly, classie ) {
 
 	}
 
-    Draggable.prototype.addDroppable = function (droppable) {
-        this.droppables.push(droppable);
-    }
-
 	Draggable.prototype.onDragStart = function( instance, event, pointer ) {
 
 		//callback
