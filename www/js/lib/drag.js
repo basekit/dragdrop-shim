@@ -140,6 +140,8 @@ function dragDefinition(Draggabilly, classie ) {
 		this.initEvents();
 	}
 
+    extend( Draggable.prototype, window.EventEmitter.prototype );
+
 	Draggable.prototype.options = {
 		// auto scroll when dragging
 		scroll: false,
@@ -176,8 +178,15 @@ function dragDefinition(Draggabilly, classie ) {
 
 	}
 
-	Draggable.prototype.onDragStart = function( instance, event, pointer ) {
+    Draggable.prototype.disable = function () {
+        this.draggie.disable();
+    }
 
+    Draggable.prototype.enable = function () {
+        this.draggie.enable();
+    }
+
+	Draggable.prototype.onDragStart = function( instance, event, pointer ) {
 		//callback
 		this.options.onStart();
 
@@ -185,7 +194,7 @@ function dragDefinition(Draggabilly, classie ) {
 		this.position = { left : instance.position.x, top : instance.position.y };
 		// create helper
 		if( this.options.helper ) {
-			this.createHelper( instance.element );
+			this.trigger('cloneDraggable', [this, this.createHelper( instance.element )]);
 		}
 		// add class is-active to the draggable element (control the draggable z-index)
 		classie.add( instance.element, 'is-active' );
@@ -318,6 +327,8 @@ function dragDefinition(Draggabilly, classie ) {
 		body.appendChild( this.el );
 
 		classie.add( clone, 'is-drag-original' );
+
+        return draggable;
 	}
 
 	// move back the draggable to its original position
